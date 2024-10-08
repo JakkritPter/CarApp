@@ -9,14 +9,14 @@ class TransactionProvider with ChangeNotifier {
     return transactions;
   }
 
-  void initData() async{
+  void initData() async {
     var db = await TransactionDB(dbName: 'transactions.db');
     this.transactions = await db.loadAllData();
     print(this.transactions);
     notifyListeners();
   }
 
-  void addTransaction(Transactions transaction) async{
+  void addTransaction(Transactions transaction) async {
     var db = await TransactionDB(dbName: 'transactions.db');
     var keyID = await db.insertDatabase(transaction);
     this.transactions = await db.loadAllData();
@@ -24,15 +24,15 @@ class TransactionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteTransaction(int? index) async{
+  void deleteTransaction(int? index) async {
     print('delete index: $index');
     var db = await TransactionDB(dbName: 'transactions.db');
     await db.deleteDatabase(index);
     this.transactions = await db.loadAllData();
-    notifyListeners(); 
+    notifyListeners();
   }
 
-  void updateTransaction(Transactions transaction) async{
+  void updateTransaction(Transactions transaction) async {
     // print('update index: ${transaction.keyID}');
     var db = await TransactionDB(dbName: 'transactions.db');
     await db.updateDatabase(transaction);

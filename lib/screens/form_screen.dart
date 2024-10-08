@@ -1,6 +1,5 @@
 import 'package:account/main.dart';
 import 'package:account/models/transactions.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:account/provider/transaction_provider.dart';
@@ -26,43 +25,64 @@ class _FormScreenState extends State<FormScreen> {
   
     return Scaffold(
         appBar: AppBar(
-          title: const Text('แบบฟอร์มเพิ่มข้อมูล'),
+          centerTitle: true,
+          title: const Text('แบบฟอร์มเพิ่มข้อมูล',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 25, color: Color.fromARGB(255, 85, 75, 114)),
+          ),
         ),
         body: Form(
             key: formKey,
             child: Column(
               children: [
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'ชื่อรายการ',
-                  ),
-                  autofocus: false,
-                  controller: titleController,
-                  validator: (String? str) {
-                    if (str!.isEmpty) {
-                      return 'กรุณากรอกข้อมูล';
-                    }
-                  },
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'จำนวนเงิน',
-                  ),
-                  keyboardType: TextInputType.number,
-                  controller: amountController,
-                  validator: (String? input) {
-                    try {
-                      double amount = double.parse(input!);
-                      if (amount < 0) {
-                        return 'กรุณากรอกข้อมูลมากกว่า 0';
+                Container(
+                  margin: const EdgeInsets.all(30),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'ชื่อรถ',
+                      labelStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                      )
+                    ),
+                    autofocus: false,
+                    controller: titleController,
+                    validator: (String? str) {
+                      if (str!.isEmpty) {
+                        return 'กรุณากรอกข้อมูล';
                       }
-                    } catch (e) {
-                      return 'กรุณากรอกข้อมูลเป็นตัวเลข';
-                    }
-                  },
+                    },
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(30),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'ราคา',
+                      labelStyle: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                        )),
+                    keyboardType: TextInputType.number,
+                    controller: amountController,
+                    validator: (String? input) {
+                      try {
+                        double amount = double.parse(input!);
+                        if (amount < 0) {
+                          return 'กรุณากรอกข้อมูลมากกว่า 0';
+                        }
+                      } catch (e) {
+                        return 'กรุณากรอกข้อมูลเป็นตัวเลข';
+                      }
+                    },
+                  ),
                 ),
                 TextButton(
-                    child: const Text('บันทึก'),
+                    child: const Text('บันทึก', 
+                    style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 25, color: Color.fromARGB(255, 85, 75, 114)
+                      ),
+                    ),
                     onPressed: () {
                           if (formKey.currentState!.validate())
                             {
@@ -73,12 +93,9 @@ class _FormScreenState extends State<FormScreen> {
                                   amount: double.parse(amountController.text),
                                   date: DateTime.now()
                                   );
-                            
                               // add transaction data object to provider
                               var provider = Provider.of<TransactionProvider>(context, listen: false);
-                              
                               provider.addTransaction(statement);
-
                               Navigator.push(context, MaterialPageRoute(
                                 fullscreenDialog: true,
                                 builder: (context){

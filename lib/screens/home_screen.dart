@@ -19,8 +19,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          title: const Text("แอพบัญชี"),
+          centerTitle: true,
+          backgroundColor: const Color.fromARGB(255, 255, 74, 61),
+          title: const Text(
+            "ShoCar",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
+          ),
           actions: [
             IconButton(
               icon: const Icon(Icons.exit_to_app),
@@ -34,7 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, TransactionProvider provider, Widget? child) {
             if (provider.transactions.isEmpty) {
               return const Center(
-                child: Text('ไม่มีรายการ'),
+                child: Text('ไม่มีรายการ', style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20
+                  ),
+                ),
               );
             } else {
               return ListView.builder(
