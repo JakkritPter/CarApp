@@ -103,7 +103,7 @@ class _FormScreenState extends State<FormScreen> {
                     margin: const EdgeInsets.all(30),
                     child: TextFormField(
                       decoration: const InputDecoration(
-                          labelText: 'ปี1',
+                          labelText: 'ปี',
                           labelStyle: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)
                               ),

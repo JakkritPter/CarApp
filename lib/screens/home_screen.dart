@@ -53,17 +53,40 @@ class _HomeScreenState extends State<HomeScreen> {
                     margin:
                         const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                     child: ListTile(
-                      title: Text(statement.price.toString()),
-                      subtitle: Text(DateFormat('dd MMM yyyy hh:mm:ss')
-                          .format(statement.date)),
+                      contentPadding: EdgeInsets.all(16.0), // เว้นระยะรอบ
+                      title: Text(
+                        statement.name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('ราคา: ${statement.price.toInt()} บาท', style: TextStyle(fontSize: 16)),
+                          Text('ยี่ห้อ: ${statement.brand}', style: TextStyle(fontSize: 16)),
+                          Text('รุ่น: ${statement.model}', style: TextStyle(fontSize: 16)),
+                          Text('ปี: ${statement.year}', style: TextStyle(fontSize: 16)),
+                          Text('สี: ${statement.color}', style: TextStyle(fontSize: 16)),
+                          Text(
+                            DateFormat('dd MMM yyyy hh:mm:ss').format(statement.date),
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
+                        ],
+                      ),
                       leading: CircleAvatar(
                         radius: 30,
+                        backgroundColor: Colors.blueAccent, 
                         child: FittedBox(
-                          child: Text(statement.name),
+                          child: Text(
+                            statement.name,
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                       trailing: IconButton(
-                        icon: const Icon(Icons.delete),
+                        icon: const Icon(Icons.delete, color: Colors.red, size: 45,),
                         onPressed: () {
                           provider.deleteTransaction(statement.keyID);
                         },

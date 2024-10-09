@@ -37,123 +37,122 @@ class _EditScreenState extends State<EditScreen> {
         appBar: AppBar(
           title: const Text('แบบฟอร์มแก้ไขข้อมูล'),
         ),
-        body: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                  Container(
-                    margin: const EdgeInsets.all(30),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                          labelText: 'ชื่อรถ',
-                          labelStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
-                      autofocus: false,
-                      controller: nameCtl,
-                      validator: (String? str) {
-                        if (str!.isEmpty) {
-                          return 'กรุณากรอกข้อมูล';
-                        }
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(30),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                          labelText: 'ราคา',
-                          labelStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
-                      keyboardType: TextInputType.number,
-                      controller: priceCtl,
-                      validator: (String? input) {
-                        try {
-                          double amount = double.parse(input!);
-                          if (amount < 0) {
-                            return 'กรุณากรอกข้อมูลมากกว่า 0';
+        body: SingleChildScrollView(
+          child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                    Container(
+                      margin: const EdgeInsets.all(30),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                            labelText: 'ชื่อรถ',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                        autofocus: false,
+                        controller: nameCtl,
+                        validator: (String? str) {
+                          if (str!.isEmpty) {
+                            return 'กรุณากรอกข้อมูล';
                           }
-                        } catch (e) {
-                          return 'กรุณากรอกข้อมูลเป็นตัวเลข';
+                        },
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(30),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                            labelText: 'ราคา',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                        keyboardType: TextInputType.number,
+                        controller: priceCtl,
+                        validator: (String? input) {
+                          try {
+                            double amount = double.parse(input!);
+                            if (amount < 0) {
+                              return 'กรุณากรอกข้อมูลมากกว่า 0';
+                            }
+                          } catch (e) {
+                            return 'กรุณากรอกข้อมูลเป็นตัวเลข';
+                          }
+                        },
+                      ),
+                    ),
+            
+                    Container(
+                      margin: const EdgeInsets.all(30),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                            labelText: 'ยี่ห้อ',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                        controller: brandCtl,
+                      ),
+                    ),
+            
+                    Container(
+                      margin: const EdgeInsets.all(30),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                            labelText: 'รุ่น',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                        controller: modelCtl,
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(30),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                            labelText: 'ปี',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)
+                                ),
+                        keyboardType: TextInputType.number,
+                        controller: yearCtl,
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(30),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                            labelText: 'สี',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                        controller: colorCtl,
+                      ),
+                    ),
+            
+                  TextButton(
+                      child: const Text('แก้ไขข้อมูล'),
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          // create transaction data object
+                          var statement = Transactions(
+                                keyID: widget.statement.keyID,
+                                name: nameCtl.text,
+                                price: double.parse(priceCtl.text),
+                                brand: brandCtl.text,
+                                model:modelCtl.text,
+                                year: int.parse(yearCtl.text),
+                                color: colorCtl.text, 
+                                date: DateTime.now());
+
+                          // add transaction data object to provider
+                          var provider = Provider.of<TransactionProvider>(context, listen: false);
+                          provider.updateTransaction(statement);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  fullscreenDialog: true,
+                                  builder: (context) {
+                                    return MyHomePage();
+                                  }));
                         }
-                      },
-                    ),
-                  ),
-          
-                  Container(
-                    margin: const EdgeInsets.all(30),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                          labelText: 'ยี่ห้อ',
-                          labelStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
-                      controller: brandCtl,
-                    ),
-                  ),
-          
-                  Container(
-                    margin: const EdgeInsets.all(30),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                          labelText: 'รุ่น',
-                          labelStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
-                      controller: modelCtl,
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(30),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                          labelText: 'ปี1',
-                          labelStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)
-                              ),
-                      keyboardType: TextInputType.number,
-                      controller: yearCtl,
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(30),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                          labelText: 'สี',
-                          labelStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
-                      controller: colorCtl,
-                    ),
-                  ),
-          
-                TextButton(
-                    child: const Text('แก้ไขข้อมูล'),
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        // create transaction data object
-                        var statement = Transactions(
-                              keyID: null,
-                              name: nameCtl.text,
-                              price: double.parse(priceCtl.text),
-                              brand: brandCtl.text,
-                              model:modelCtl.text,
-                              year: int.parse(yearCtl.text),
-                              color: colorCtl.text, 
-                              date: DateTime.now());
-
-                        // add transaction data object to provider
-                        var provider = Provider.of<TransactionProvider>(context,
-                            listen: false);
-
-                        provider.updateTransaction(statement);
-
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                fullscreenDialog: true,
-                                builder: (context) {
-                                  return MyHomePage();
-                                }));
-                      }
-                    })
-              ],
-            )));
+                      })
+                ],
+              )),
+        ));
   }
 }

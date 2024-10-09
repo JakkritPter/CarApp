@@ -70,15 +70,15 @@ class TransactionDB{
     var store = intMapStoreFactory.store('expense');
     var filter = Finder(filter: Filter.equals(Field.key, statement.keyID));
     var result = store.update(db, finder: filter,  {
-      "title": statement.name,
-      "amount": statement.price,
+      "name": statement.name,
+      "price": statement.price,
       'brand': statement.brand,
       'model': statement.model,
       'year' : statement.year,
       'color': statement.color,
       "date": statement.date.toIso8601String()
     });
-    db.close();
+    await db.close();
     print('update result: $result');
   }
 }
