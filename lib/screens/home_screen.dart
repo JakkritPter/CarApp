@@ -37,10 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, TransactionProvider provider, Widget? child) {
             if (provider.transactions.isEmpty) {
               return const Center(
-                child: Text('ไม่มีรายการ', style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20
-                  ),
+                child: Text(
+                  'ไม่มีรายการ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               );
             } else {
@@ -64,20 +63,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('ราคา: ${statement.price.toInt()} บาท', style: TextStyle(fontSize: 16)),
-                          Text('ยี่ห้อ: ${statement.brand}', style: TextStyle(fontSize: 16)),
-                          Text('รุ่น: ${statement.model}', style: TextStyle(fontSize: 16)),
-                          Text('ปี: ${statement.year}', style: TextStyle(fontSize: 16)),
-                          Text('สี: ${statement.color}', style: TextStyle(fontSize: 16)),
+                          Text('ราคา: ${statement.price.toInt()} บาท',
+                              style: TextStyle(fontSize: 16)),
+                          Text('ยี่ห้อ: ${statement.brand}',
+                              style: TextStyle(fontSize: 16)),
+                          Text('รุ่น: ${statement.model}',
+                              style: TextStyle(fontSize: 16)),
+                          Text('ปี: ${statement.year}',
+                              style: TextStyle(fontSize: 16)),
+                          Text('สี: ${statement.color}',
+                              style: TextStyle(fontSize: 16)),
                           Text(
-                            DateFormat('dd MMM yyyy hh:mm:ss').format(statement.date),
+                            DateFormat('dd MMM yyyy hh:mm:ss')
+                                .format(statement.date),
                             style: TextStyle(fontSize: 14, color: Colors.grey),
                           ),
                         ],
                       ),
                       leading: CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.blueAccent, 
+                        radius: 0,
+                        backgroundColor: const Color.fromARGB(255, 255, 73, 73),
                         child: FittedBox(
                           child: Text(
                             statement.name,
@@ -86,7 +91,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       trailing: IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red, size: 45,),
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                          size: 45,
+                        ),
                         onPressed: () {
                           provider.deleteTransaction(statement.keyID);
                         },
